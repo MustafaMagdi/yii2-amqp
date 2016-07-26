@@ -1,8 +1,8 @@
 <?php
 
-namespace iviu96afa\amqp\PhpAmqpLib\Wire;
+namespace devmustafa\amqp\PhpAmqpLib\Wire;
 
-use iviu96afa\amqp\PhpAmqpLib\Exception\AMQPOutOfBoundsException;
+use devmustafa\amqp\PhpAmqpLib\Exception\AMQPOutOfBoundsException;
 
 class AMQPWriter
 {
@@ -15,7 +15,7 @@ class AMQPWriter
 
     private static function chrbytesplit($x, $bytes)
     {
-        return array_map('chr', AMQPWriter::bytesplit($x,$bytes));
+        return array_map('chr', AMQPWriter::bytesplit($x, $bytes));
     }
 
     /**
@@ -25,7 +25,7 @@ class AMQPWriter
     private static function bytesplit($x, $bytes)
     {
         if (is_int($x)) {
-            if ($x<0) {
+            if ($x < 0) {
                 $x = sprintf("%u", $x);
             }
         }
@@ -33,15 +33,15 @@ class AMQPWriter
         $res = array();
 
         while ($bytes > 0) {
-            $b = bcmod($x,'256');
-            $res[] = (int) $b;
-            $x = bcdiv($x,'256', 0);
+            $b = bcmod($x, '256');
+            $res[] = (int)$b;
+            $x = bcdiv($x, '256', 0);
             $bytes--;
         }
 
         $res = array_reverse($res);
 
-        if ($x!=0) {
+        if ($x != 0) {
             throw new AMQPOutOfBoundsException("Value too big!");
         }
 
@@ -125,7 +125,7 @@ class AMQPWriter
      */
     public function write_short($n)
     {
-        if ($n < 0 ||  $n > 65535) {
+        if ($n < 0 || $n > 65535) {
             throw new \InvalidArgumentException('Octet out of range 0..65535');
         }
 
@@ -141,7 +141,7 @@ class AMQPWriter
     public function write_long($n)
     {
         $this->flushbits();
-        $this->out .= implode("", AMQPWriter::chrbytesplit($n,4));
+        $this->out .= implode("", AMQPWriter::chrbytesplit($n, 4));
 
         return $this;
     }
@@ -162,7 +162,7 @@ class AMQPWriter
     public function write_longlong($n)
     {
         $this->flushbits();
-        $this->out .= implode("", AMQPWriter::chrbytesplit($n,8));
+        $this->out .= implode("", AMQPWriter::chrbytesplit($n, 8));
 
         return $this;
     }
@@ -237,42 +237,42 @@ class AMQPWriter
     /**
      * Write unix time_t value as 64 bit timestamp.
      */
-   public function write_timestamp($v)
-   {
-       $this->write_longlong($v);
+    public function write_timestamp($v)
+    {
+        $this->write_longlong($v);
 
-       return $this;
-   }
+        return $this;
+    }
 
-   /**
-    * Write PHP array, as table. Input array format: keys are strings,
-    * values are (type,value) tuples.
-    */
+    /**
+     * Write PHP array, as table. Input array format: keys are strings,
+     * values are (type,value) tuples.
+     */
     public function write_table($d)
     {
         $this->flushbits();
         $table_data = new AMQPWriter();
-        foreach ($d as $k=>$va) {
-            list($ftype,$v) = $va;
+        foreach ($d as $k => $va) {
+            list($ftype, $v) = $va;
             $table_data->write_shortstr($k);
-            if ($ftype=='S') {
+            if ($ftype == 'S') {
                 $table_data->write('S');
                 $table_data->write_longstr($v);
-            } elseif ($ftype=='I') {
+            } elseif ($ftype == 'I') {
                 $table_data->write('I');
                 $table_data->write_signed_long($v);
-            } elseif ($ftype=='D') {
+            } elseif ($ftype == 'D') {
                 // 'D' type values are passed AMQPDecimal instances.
                 $table_data->write('D');
                 $table_data->write_octet($v->e);
                 $table_data->write_signed_long($v->n);
-            } elseif ($ftype=='T') {
+            } elseif ($ftype == 'T') {
                 $table_data->write('T');
                 $table_data->write_timestamp($v);
-            } elseif ($ftype=='F') {
+            } elseif ($ftype == 'F') {
                 $table_data->write('F');
                 $table_data->write_table($v);
-            } elseif ($ftype=='A') {
+            } elseif ($ftype == 'A') {
                 $table_data->write('A');
                 $table_data->write_array($v);
             } else {

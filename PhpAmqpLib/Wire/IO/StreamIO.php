@@ -1,9 +1,9 @@
 <?php
 
-namespace iviu96afa\amqp\PhpAmqpLib\Wire\IO;
+namespace devmustafa\amqp\PhpAmqpLib\Wire\IO;
 
-use iviu96afa\amqp\PhpAmqpLib\Exception\AMQPRuntimeException;
-use iviu96afa\amqp\PhpAmqpLib\Exception\AMQPTimeoutException;
+use devmustafa\amqp\PhpAmqpLib\Exception\AMQPRuntimeException;
+use devmustafa\amqp\PhpAmqpLib\Exception\AMQPTimeoutException;
 
 class StreamIO extends AbstractIO
 {
@@ -17,7 +17,8 @@ class StreamIO extends AbstractIO
         //TODO clean up
         if ($context) {
             $remote = sprintf('ssl://%s:%s', $host, $port);
-            $this->sock = @stream_socket_client($remote, $errno, $errstr, $connection_timeout, STREAM_CLIENT_CONNECT, $context);
+            $this->sock = @stream_socket_client($remote, $errno, $errstr, $connection_timeout, STREAM_CLIENT_CONNECT,
+                $context);
         } else {
             $remote = sprintf('tcp://%s:%s', $host, $port);
             $this->sock = @stream_socket_client($remote, $errno, $errstr, $connection_timeout, STREAM_CLIENT_CONNECT);
@@ -27,7 +28,7 @@ class StreamIO extends AbstractIO
             throw new AMQPRuntimeException("Error Connecting to server($errno): $errstr ");
         }
 
-        if(!stream_set_timeout($this->sock, $read_write_timeout)) {
+        if (!stream_set_timeout($this->sock, $read_write_timeout)) {
             throw new \Exception ("Timeout could not be set");
         }
 
@@ -46,7 +47,7 @@ class StreamIO extends AbstractIO
             $res .= $buf;
         }
 
-        if (strlen($res)!=$n) {
+        if (strlen($res) != $n) {
             throw new AMQPRuntimeException("Error reading data. Received " .
                 strlen($res) . " instead of expected $n bytes");
         }
@@ -67,13 +68,13 @@ class StreamIO extends AbstractIO
 
             // get status of socket to determine whether or not it has timed out
             $info = stream_get_meta_data($this->sock);
-            if($info['timed_out']) {
+            if ($info['timed_out']) {
                 throw new AMQPTimeoutException("Error sending data. Socket connection timed out");
             }
 
             $len = $len - $written;
             if ($len > 0) {
-                $data = substr($data,0-$len);
+                $data = substr($data, 0 - $len);
             } else {
                 break;
             }
@@ -95,8 +96,8 @@ class StreamIO extends AbstractIO
 
     public function select($sec, $usec)
     {
-        $read   = array($this->sock);
-        $write  = null;
+        $read = array($this->sock);
+        $write = null;
         $except = null;
         return stream_select($read, $write, $except, $sec, $usec);
     }

@@ -1,8 +1,8 @@
 <?php
 
-namespace iviu96afa\amqp\PhpAmqpLib\Tests\Functional;
+namespace devmustafa\amqp\PhpAmqpLib\Tests\Functional;
 
-use iviu96afa\amqp\PhpAmqpLib\Connection\AMQPSocketConnection;
+use devmustafa\amqp\PhpAmqpLib\Connection\AMQPSocketConnection;
 
 class SocketPublishConsumeTest extends AbstractPublishConsumeTest
 {

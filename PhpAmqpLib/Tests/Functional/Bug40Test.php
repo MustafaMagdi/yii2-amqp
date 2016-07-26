@@ -1,9 +1,9 @@
 <?php
 
-namespace iviu96afa\amqp\PhpAmqpLib\Tests\Functional;
+namespace devmustafa\amqp\PhpAmqpLib\Tests\Functional;
 
-use iviu96afa\amqp\PhpAmqpLib\Connection\AMQPConnection;
-use iviu96afa\amqp\PhpAmqpLib\Message\AMQPMessage;
+use devmustafa\amqp\PhpAmqpLib\Connection\AMQPConnection;
+use devmustafa\amqp\PhpAmqpLib\Message\AMQPMessage;
 
 class Bug40Test extends \PHPUnit_Framework_TestCase
 {
@@ -19,8 +19,8 @@ class Bug40Test extends \PHPUnit_Framework_TestCase
         $this->ch2 = $this->conn->channel();
 
         $this->ch->exchange_declare($this->exchange_name, 'direct', false, false, false);
-        list($this->queue_name1,,) = $this->ch->queue_declare();
-        list($this->queue_name2,,) = $this->ch->queue_declare();
+        list($this->queue_name1, ,) = $this->ch->queue_declare();
+        list($this->queue_name2, ,) = $this->ch->queue_declare();
         $this->ch->queue_bind($this->queue_name1, $this->exchange_name, $this->queue_name1);
         $this->ch->queue_bind($this->queue_name2, $this->exchange_name, $this->queue_name2);
     }

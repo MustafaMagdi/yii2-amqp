@@ -1,9 +1,9 @@
 <?php
 
-namespace iviu96afa\amqp\PhpAmqpLib\Tests\Functional;
+namespace devmustafa\amqp\PhpAmqpLib\Tests\Functional;
 
-use iviu96afa\amqp\PhpAmqpLib\Connection\AMQPConnection;
-use iviu96afa\amqp\PhpAmqpLib\Message\AMQPMessage;
+use devmustafa\amqp\PhpAmqpLib\Connection\AMQPConnection;
+use devmustafa\amqp\PhpAmqpLib\Message\AMQPMessage;
 
 abstract class AbstractPublishConsumeTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,7 +16,7 @@ abstract class AbstractPublishConsumeTest extends \PHPUnit_Framework_TestCase
         $this->ch = $this->conn->channel();
 
         $this->ch->exchange_declare($this->exchange_name, 'direct', false, false, false);
-        list($this->queue_name,,) = $this->ch->queue_declare();
+        list($this->queue_name, ,) = $this->ch->queue_declare();
         $this->ch->queue_bind($this->queue_name, $this->exchange_name, $this->queue_name);
     }
 

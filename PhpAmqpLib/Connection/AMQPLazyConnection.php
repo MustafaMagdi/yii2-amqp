@@ -1,34 +1,47 @@
 <?php
 
-namespace iviu96afa\amqp\PhpAmqpLib\Connection;
+namespace devmustafa\amqp\PhpAmqpLib\Connection;
 
 class common\models\AMQPLazyConnection extends AMQPConnection
 {
-    protected $sock = null;
+    protected
+    $sock = null;
 
-    private $host;
-    private $port;
-    private $user;
-    private $password;
-    private $vhost;
-    private $insist;
-    private $login_method;
-    private $login_response;
-    private $locale;
-    private $connection_timeout;
-    private $read_write_timeout;
-    private $context;
+    private
+    $host;
+    private
+    $port;
+    private
+    $user;
+    private
+    $password;
+    private
+    $vhost;
+    private
+    $insist;
+    private
+    $login_method;
+    private
+    $login_response;
+    private
+    $locale;
+    private
+    $connection_timeout;
+    private
+    $read_write_timeout;
+    private
+    $context;
 
     function __construct(
         $host,
         $port,
         $user,
         $password,
-        $vhost="/",
-        $insist=false,
-        $login_method="AMQPLAIN",
-        $login_response=null,
-        $locale="en_US",
+        $vhost = "/",
+        $insist = false,
+        $login_method = "AMQPLAIN",
+        $login_response = null,
+        $locale = "en_US",
         $connection_timeout = 3,
         $read_write_timeout = 3,
         $context = null
@@ -53,7 +66,8 @@ class common\models\AMQPLazyConnection extends AMQPConnection
      *
      * @deprecated
      */
-    public function getSocket()
+    public
+    function getSocket()
     {
         $this->initLazyConnection();
 
@@ -63,7 +77,8 @@ class common\models\AMQPLazyConnection extends AMQPConnection
     /**
      * @inheritdoc
      */
-    public function channel($channel_id = null)
+    public
+    function channel($channel_id = null)
     {
         $this->initLazyConnection();
 
@@ -73,7 +88,8 @@ class common\models\AMQPLazyConnection extends AMQPConnection
     /**
      * @return null|\PhpAmqpLib\Wire\IO\AbstractIO
      */
-    protected function getIO()
+    protected
+    function getIO()
     {
         $this->initLazyConnection();
 
@@ -83,7 +99,8 @@ class common\models\AMQPLazyConnection extends AMQPConnection
     /**
      * Initialize the lazy connection if not initialized yet
      */
-    private function initLazyConnection()
+    private
+    function initLazyConnection()
     {
         if (is_null($this->io)) {
             parent::__construct(

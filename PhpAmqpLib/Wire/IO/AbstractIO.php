@@ -1,6 +1,6 @@
 <?php
 
-namespace iviu96afa\amqp\PhpAmqpLib\Wire\IO;
+namespace devmustafa\amqp\PhpAmqpLib\Wire\IO;
 
 abstract class AbstractIO
 {

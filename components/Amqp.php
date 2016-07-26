@@ -1,16 +1,17 @@
 <?php
 
 /**
- * @link https://github.com/iviu96afa/yii2-amqp
+ * @link https://github.com/devmustafa/yii2-amqp
  */
 
-namespace iviu96afa\amqp\components;
+namespace devmustafa\amqp\components;
 
 use yii\base\Component;
-use iviu96afa\amqp\PhpAmqpLib\Connection\AMQPConnection;
-use iviu96afa\amqp\PhpAmqpLib\Message\AMQPMessage;
+use devmustafa\amqp\PhpAmqpLib\Connection\AMQPConnection;
+use devmustafa\amqp\PhpAmqpLib\Message\AMQPMessage;
 
-class Amqp extends Component {
+class Amqp extends Component
+{
 
     public $host = '';
     public $port = '';
@@ -20,43 +21,53 @@ class Amqp extends Component {
     private $_connect = null;
     private $_channel = null;
 
-    public function getHost() {
+    public function getHost()
+    {
         return $this->host;
     }
 
-    public function setHost($host) {
+    public function setHost($host)
+    {
         $this->host = $host;
     }
 
-    public function getPort() {
+    public function getPort()
+    {
         return $this->port;
     }
 
-    public function setPort($port) {
+    public function setPort($port)
+    {
         $this->port = $port;
     }
 
-    public function getVhost() {
+    public function getVhost()
+    {
         return $this->vhost;
     }
 
-    public function setVhost($vhost) {
+    public function setVhost($vhost)
+    {
         $this->vhost = $vhost;
     }
 
-    public function getUser() {
+    public function getUser()
+    {
         return $this->user;
     }
 
-    public function setUser($user) {
+    public function setUser($user)
+    {
         $this->user = $user;
     }
 
-    public function getPassword() {
+    public function getPassword()
+    {
         return $this->password;
     }
 
-    public function setPassword($password) {
+    public function setPassword($password)
+    {
         $this->password = $password;
     }
 
@@ -70,7 +81,8 @@ class Amqp extends Component {
         return $this->_channel;
     }
 
-    public function init() {
+    public function init()
+    {
         parent::init();
         $this->_connect = new AMQPConnection($this->host, $this->port, $this->user, $this->password, $this->vhost);
         $this->_channel = $this->_connect->channel();
@@ -85,7 +97,8 @@ class Amqp extends Component {
      */
 
 
-    public function declareExchange($name, $type = 'fanout', $passive = false, $durable = true, $auto_delete = false) {
+    public function declareExchange($name, $type = 'fanout', $passive = false, $durable = true, $auto_delete = false)
+    {
         return $this->_channel->exchange_declare($name, $type, $passive, $durable, $auto_delete);
     }
 
@@ -97,31 +110,42 @@ class Amqp extends Component {
       auto_delete: false //the queue won't be deleted once the channel is closed.
      */
 
-    public function declareQueue($name, $passive = false, $durable = true, $exclusive = false, $auto_delete = false) {
+    public function declareQueue($name, $passive = false, $durable = true, $exclusive = false, $auto_delete = false)
+    {
         return $this->_channel->queue_declare($name, $passive, $durable, $exclusive, $auto_delete);
     }
 
-    public function bindQueueExchanger($queueName, $exchangeName, $routingKey = '') {
+    public function bindQueueExchanger($queueName, $exchangeName, $routingKey = '')
+    {
         $this->_channel->queue_bind($queueName, $exchangeName, $routingKey);
     }
 
-    public function publish_message($message, $exchangeName, $routingKey = '', $content_type = 'text/plain', $app_id = '') {
+    public function publish_message(
+        $message,
+        $exchangeName,
+        $routingKey = '',
+        $content_type = 'text/plain',
+        $app_id = ''
+    ) {
         $toSend = new AMQPMessage($message, array(
             'content_type' => $content_type,
             'content_encoding' => 'utf-8',
             'app_id' => $app_id,
-            'delivery_mode' => 2));
+            'delivery_mode' => 2
+        ));
         $this->_channel->basic_publish($toSend, $exchangeName, $routingKey);
         //$msg = $this->_channel->basic_get('q1');
         //var_dump($msg);
     }
 
-    public function closeConnection() {
+    public function closeConnection()
+    {
         $this->_channel->close();
         $this->_connect->close();
     }
 
-    public function exchangeDelete($name) {
+    public function exchangeDelete($name)
+    {
         $this->_channel->exchange_delete($name);
     }
 

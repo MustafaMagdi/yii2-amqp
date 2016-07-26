@@ -1,8 +1,8 @@
 <?php
 
-namespace iviu96afa\amqp\PhpAmqpLib\Message;
+namespace devmustafa\amqp\PhpAmqpLib\Message;
 
-use iviu96afa\amqp\PhpAmqpLib\Wire\GenericContent;
+use devmustafa\amqp\PhpAmqpLib\Wire\GenericContent;
 
 /**
  * A Message for use with the Channnel.basic_* methods.

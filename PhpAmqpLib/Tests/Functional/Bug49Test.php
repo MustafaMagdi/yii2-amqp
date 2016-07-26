@@ -1,10 +1,10 @@
 <?php
 
-namespace iviu96afa\amqp\PhpAmqpLib\Tests\Functional;
+namespace devmustafa\amqp\PhpAmqpLib\Tests\Functional;
 
-use iviu96afa\amqp\PhpAmqpLib\Connection\AMQPConnection;
-use iviu96afa\amqp\PhpAmqpLib\Message\AMQPMessage;
-use iviu96afa\amqp\PhpAmqpLib\Exception\AMQPProtocolException;
+use devmustafa\amqp\PhpAmqpLib\Connection\AMQPConnection;
+use devmustafa\amqp\PhpAmqpLib\Message\AMQPMessage;
+use devmustafa\amqp\PhpAmqpLib\Exception\AMQPProtocolException;
 
 class Bug49Test extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +33,8 @@ class Bug49Test extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function tearDown() {
+    public function tearDown()
+    {
         $this->ch2->close();
         $this->conn->close();
     }

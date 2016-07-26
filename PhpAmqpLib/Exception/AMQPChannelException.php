@@ -1,8 +1,8 @@
 <?php
 
-namespace iviu96afa\amqp\PhpAmqpLib\Exception;
+namespace devmustafa\amqp\PhpAmqpLib\Exception;
 
-use iviu96afa\amqp\PhpAmqpLib\Exception\AMQPException;
+use devmustafa\amqp\PhpAmqpLib\Exception\AMQPException;
 
 /**
  * @deprecated use AMQPProtocolChannelException instead
